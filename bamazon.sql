@@ -14,13 +14,13 @@ CREATE TABLE products (                                 --Create a new table lab
 INSERT INTO products 
 (product_name, department_name, price, stock_quantity) -- Specify the columns and the order the following values that will be inserted into said columns.
 VALUES 
-('Kindle Paperwhite E-reader', 'Electronics', 119.99, 1500),
-('Apple Watch Screen Protector', 'Toys & Games', 7.85, 1000),
-('GoPro HERO5 Black', 'Camera & Photo', 249.00, 3000),
-('God of War - Playstation 4', 'Video Games', 69.99, 2200),
-('The Largesse of the Sea Maiden', 'Books', 17.99, 3075),
-('Casual Oversized Baggy Off-Shoulder Shirt', 'Clothing', 35.99, 5500),
-('Baby Banana Infant Training Toothbrush and Teether', 'Baby', 15.99, 9550),
-('BLACK+DECKER BDH2000L 20-Volt Max Lithium Ion Battery Cordless Hand Vacuum', 'Vaccums & Floor Care', 684.39, 7050),
-('Etekcity Digital Body Weight Scale', 'Health & Household', 22.35, 3550),
-('Pet Grooming Glove', 'Pet Supplies', 15.50, 6050);
+('Kindle Paperwhite E-reader', 'Electronics', 119.99, 4),
+('SpongeBob SquarePants Board Game', 'Toys & Games', 17.85, 100),
+('GoPro HERO5 Black', 'Camera & Photo', 249.00, 300),
+('God of War - Playstation 4', 'Video Games', 69.99, 2),
+('The Largesse of the Sea Maiden', 'Books', 17.99, 35),
+('Casual Oversized Baggy Off-Shoulder Shirt', 'Clothing', 35.99, 55),
+('Baby Banana Infant Teether', 'Baby', 15.99, 1),
+('BLACK+DECKER Cordless Hand Vacuum', 'Vaccums & Floor Care', 684.39, 7),
+('Digital Body Weight Scale', 'Health & Household', 22.35, 10),
+('Pet Grooming Glove', 'Pet Supplies', 15.50, 60);
