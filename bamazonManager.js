@@ -29,10 +29,10 @@ function startManager() {
                 viewLowInventory();
                 break;
             case "Add to Inventory":
-                console.log("I don't have a function yet.");
+                addToInventory();
                 break;
             case "Add New Product":
-                console.log("I don't have a function yet.");
+                addProduct();
                 break;
         }
     });
@@ -63,7 +63,7 @@ function viewTotalInventory() {
         startManager();
     })
 }
-// Function to view inventory with quantity < 5 in our 'products' table.
+// Function to view inventory with quantity < 5 in the 'products' table.
 function viewLowInventory() {
     con.query('SELECT * FROM products', function (err, res) {
         if (err) throw err;
@@ -91,6 +91,136 @@ function viewLowInventory() {
         startManager();
     });
 }
-startManager();
+// Function to add stock_quantity amount to any product in the 'products' table.
+function addToInventory() {
+    con.query('SELECT * FROM products', function (err, res) {
+        if (err) throw err;
+        // Create empty var to hold the list of products.
+        var itemArray = [];
+        // Push each item into the itemArray var.
+        for (var i = 0; i < res.length; i++) {
+            itemArray.push(res[i].product_name);
+        }
+        inquirer.prompt([{
+            type: "list",
+            name: "product",
+            choices: itemArray,
+            message: "Select which product you want to add inventory to:"
+        }, {
+            type: "input",
+            name: "qty",
+            message: "How much inventory would you like to add?",
+            validate: function (value) { // Make sure input value is a number.
+                if (isNaN(value) === false) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }]).then(function (ans) {
+            // Loop through results
+            for (var i = 0; i < res.length; i++) {
+                var productName = (res[i].product_name);
+                var currentQuantity = res[i].stock_quantity;
+                // if Manager input equals a value of product_name,
+                if (productName === ans.product) {
+                    con.query('UPDATE products SET ? WHERE ?', [{
+                            // update said product's stock_quantity by adding Manager's input value.
+                            stock_quantity: currentQuantity + parseInt(ans.qty)
+                        },
+                        {
+                            product_name: ans.product
+                        }
+                    ], function (err, res) {
+                        if (err) throw err;
+                        console.log(`
+        =================================================================
 
-// viewInventory();
+        Rows affected: ${res.affectedRows}
+        
+        The stock_quantity of '${ans.product}' was updated.
+
+        =================================================================
+                        `);
+                        startManager();
+                    });
+                }
+            }
+        })
+    });
+}
+//allows manager to add a completely new product to store
+function addProduct() {
+    console.log(`You are adding a new and unique product to 'products' table in 'bamazon' database.`);
+    var departments = [];
+    // Grab name of department_names for Manager to chose from.
+    con.query('SELECT * FROM products', function (err, res) {
+        if (err) throw err;
+        for (var i = 0; i < res.length; i++) {
+            departments.push(res[i].department_name);
+        }
+    })
+    inquirer.prompt([{
+        type: "input",
+        name: "item",
+        message: "Input name of item:",
+        validate: function (value) {
+            if (value) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }, {
+        type: "list",
+        name: "department",
+        message: "Choose the department the item belongs to:",
+        choices: departments
+    }, {
+        type: "input",
+        name: "price",
+        message: "Input the price of the item:",
+        validate: function (value) {
+            if (isNaN(value) === false) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }, {
+        type: "input",
+        name: "quantity",
+        message: "Input the stock_quantity of item:",
+        validate: function (value) {
+            if (isNaN(value) == false) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }]).then(function (ans) {
+        console.log(`
+                
+        =================================================================
+            YOU ADDED THE FOLLOWING RECORD TO 'PRODUCTS' TABLE:
+        =================================================================
+        `);
+        con.query('INSERT INTO products SET ?', {
+            product_name: ans.item,
+            department_name: ans.department,
+            price: ans.price,
+            stock_quantity: ans.quantity
+        }, function (err, res) {
+            if (err) throw err;
+            console.log(`
+            product_name:       ${ans.item}
+            department_name:    ${ans.department}
+            price:              ${ans.price}
+            stock_quantity:     ${ans.quantity}
+
+            `);
+            startManager();
+        })
+    });
+}
+startManager();
