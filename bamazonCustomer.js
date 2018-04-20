@@ -41,7 +41,32 @@ function startBamazon() {
                             END OF PRODUCTS LIST
         =================================================================
         `);
-        
+        // Add prompt messages to gather the product and amount of product the customer wants to purchase.
+        inquirer.prompt([{
+                type: "input",
+                name: "id",
+                message: "What is the ID of the product you would like to purchase?",
+                validate: function (value) {    // Make sure the input is a number and that it matches one of our 'item_id's.
+                    if (isNaN(value) === false && parseInt(value) <= res.length && parseInt(value) > 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            },
+            {
+                type: "input",
+                name: "qty",
+                message: "How many would you like to purchase?",
+                validate: function (value) {
+                    if (isNaN(value)) {         // Make sure that the input is a number value.
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+            }
+        ]);
         con.end();
     })
 }
