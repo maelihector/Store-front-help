@@ -13,7 +13,7 @@ var con = mysql.createConnection({
 con.connect(function (err) {
     if (err) throw err;
 });
-
+// Function to display prompt at initialization of application.
 function startManager() {
     inquirer.prompt([{
         type: "list",
@@ -26,7 +26,7 @@ function startManager() {
                 viewTotalInventory();
                 break;
             case "View Low Inventory":
-                console.log("I don't have a function yet.");
+                viewLowInventory();
                 break;
             case "Add to Inventory":
                 console.log("I don't have a function yet.");
@@ -45,9 +45,7 @@ function viewTotalInventory() {
         console.log(`
                 
                 =================================================================
-                
                                     BAMAZON'S TOTAL INVENTORY
-                
                 =================================================================
                 `);
         for (var i = 0; i < res.length; i++) { // Loop through the 'products',
@@ -58,12 +56,40 @@ function viewTotalInventory() {
                 stock_quantity:     ${res[i].stock_quantity}`) // and return all current inventory.
         }
         console.log(`
-            =================================================================
-                                    END OF INVENTORY
-            =================================================================
+                =================================================================
+                                        END OF INVENTORY
+                =================================================================
             `);
-            startManager();
+        startManager();
     })
+}
+// Function to view inventory with quantity < 5 in our 'products' table.
+function viewLowInventory() {
+    con.query('SELECT * FROM products', function (err, res) {
+        if (err) throw err;
+        console.log(`
+                
+        =================================================================
+                            BAMAZON'S LOW INVENTORY
+        =================================================================
+        `);
+        // Loop through the 'products',
+        for (var i = 0; i < res.length; i++) {
+            if (res[i].stock_quantity <= 5) { // and only return those products with a stock_quantity < 5.
+                console.log(`
+                item_id:            ${res[i].item_id}
+                product_name:       ${res[i].product_name}
+                price:              $${res[i].price}
+                stock_quantity:     ${res[i].stock_quantity}`)
+            }
+        }
+        console.log(`
+        =================================================================
+                            END OF LOW INVENTORY
+        =================================================================
+        `);
+        startManager();
+    });
 }
 startManager();
 
