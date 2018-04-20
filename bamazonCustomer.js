@@ -46,7 +46,7 @@ function startBamazon() {
                 type: "input",
                 name: "id",
                 message: "What is the ID of the product you would like to purchase?",
-                validate: function (value) {    // Make sure the input is a number and that it matches one of our 'item_id's.
+                validate: function (value) { // Make sure the input is a number and that it matches one of our 'item_id's.
                     if (isNaN(value) === false && parseInt(value) <= res.length && parseInt(value) > 0) {
                         return true;
                     } else {
@@ -59,15 +59,52 @@ function startBamazon() {
                 name: "qty",
                 message: "How many would you like to purchase?",
                 validate: function (value) {
-                    if (isNaN(value)) {         // Make sure that the input is a number value.
+                    if (isNaN(value)) { // Make sure that the input is a number value.
                         return false;
                     } else {
                         return true;
                     }
                 }
             }
-        ]);
-        con.end();
+            // Funtion to check if Bamazon has enough of the product to meet the customer's request. 
+        ]).then(function (input) {
+            var itemToPurchase = (input.id) - 1;
+            var purchaseQuantity = parseInt(input.qty);
+            var currentQuantity = (res[itemToPurchase].stock_quantity);
+            var totalCost = parseFloat(((res[itemToPurchase].price) * purchaseQuantity).toFixed(2)); // Gather totol cost to customer by grabing the 'price' of the input.id, and and multiplying it by the purchase quantity, and returning a dollar amount.
+            var productName = (res[itemToPurchase].product_name);
+            // Check if Bamazon's stock_quantity value is greater than or equal to the customer's quantity request.
+            if (currentQuantity >= purchaseQuantity) {
+                con.query("UPDATE Products SET ? WHERE ?", [{
+                        // If so, stock_quantity by subtracting the customer's purchase quantity from the table's stock_quantity.
+                        stock_quantity: (currentQuantity - purchaseQuantity)
+                    },
+                    {
+                        item_id: (input.id)
+                    }
+                ], function (err, result) {
+                    if (err) throw err;
+                    // Show the customer the total cost of their purchase.
+                    console.log(`
+                                ~~Your order went through!~~
+
+                            Your total today was: $${totalCost} 
+
+                        ${purchaseQuantity} of ${productName}(s)
+
+                       will be shipped to you in 3-5 business days.
+
+                                        *********
+
+                                THANK YOU FOR YOUR BUSINESS!
+                    `);
+                });
+            } else {
+                console.log(`Sorry, we have insufficient quantity in stock, here is the quantity we currently have: ${currentQuantity}`);
+               // startBamazon();  
+                con.end();
+            }
+        });
     })
 }
 
