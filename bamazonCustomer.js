@@ -14,7 +14,7 @@ con.connect(function (err) {
     if (err) throw err;
 });
 // Function to display products for sale to customer at initialization of application.
-function startBamazon() {
+function startCustomer() {
     con.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
         //console.log(res); // Check for appropriate response
@@ -88,7 +88,7 @@ function startBamazon() {
                     console.log(`
                                 ~~Your order went through!~~
 
-                            Your total today was: $${totalCost} 
+                              Your total today was: $${totalCost} 
 
                         ${purchaseQuantity} of ${productName}(s)
 
@@ -98,14 +98,15 @@ function startBamazon() {
 
                                 THANK YOU FOR YOUR BUSINESS!
                     `);
+                    con.end();
                 });
             } else {
                 console.log(`Sorry, we have insufficient quantity in stock, here is the quantity we currently have: ${currentQuantity}`);
-               // startBamazon();  
+               // startCustomer();  
                 con.end();
             }
         });
     })
 }
 
-startBamazon();
+startCustomer();
