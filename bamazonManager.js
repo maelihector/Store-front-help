@@ -222,5 +222,6 @@ function addProduct() {
             startManager();
         })
     });
+    
 }
 startManager();
