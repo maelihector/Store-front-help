@@ -23,14 +23,13 @@ function startCustomer() {
                             =================================================================
 
                                                 ~~*~~ WELCOME TO BAMAZON ~~*~~
-            `);
-        console.log(`
+
                PLEASE LOOK THROUGH OUR PRODUCT LIST AND NOTE THE 'Product ID' OF THE ITEM(S) YOU WISH TO PURCHASE
             
                             =================================================================
             `);
-
-        for (var i = 0; i < res.length; i++) { // Loop through the 'products',
+        // Loop through the 'products',
+        for (var i = 0; i < res.length; i++) { 
             console.log(`
             Name: ${res[i].product_name}
             Price: $${res[i].price}
@@ -108,5 +107,4 @@ function startCustomer() {
         });
     })
 }
-
 startCustomer();
