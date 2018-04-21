@@ -100,11 +100,12 @@ function startCustomer() {
                     con.end();
                 });
             } else {
-                console.log(`Sorry, we have insufficient quantity in stock, here is the quantity we currently have: ${currentQuantity}`);
-               // startCustomer();  
+                console.log(`
+                Sorry, we have insufficient quantity in stock, here is the quantity we currently have: ${currentQuantity}
+                `);
                 con.end();
             }
         });
-    })
+    })  
 }
 startCustomer();
