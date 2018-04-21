@@ -76,7 +76,7 @@ The **Add New Product** option consists of four prompts that allow the manager t
 	`node bamazonCustomer.js`
 
  2. Follow the prompts.
- 3. If there is not enough quantity of the item you wish to purchase press `Ctrl+c` twice and go back to step 1.
+ 3. If there is not enough quantity of the item you wish to purchase go back to step 1.
  4. Press `Ctrl+c` twice anytime you wish to quit the application.
 
 #### The Manager Interface
