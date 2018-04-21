@@ -67,6 +67,7 @@ The **Add New Product** option consists of four prompts that allow the manager t
  3. Download a GUI like [Sequel Pro](https://www.sequelpro.com/) to create the initial MySQL database.
  4. Clone the 'bamazon' repository onto your machine.
  5. Run `npm install` in your terminal at the root of the repository.
+ 6. Start the MySQL server. 
 
 #### The Customer Interface
 
