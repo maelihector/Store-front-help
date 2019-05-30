@@ -1,19 +1,19 @@
-# BAMAZON
+# Store-front-help
 ## What is this?
 
-Bamazon is an application that implements a simple command line based storefront using Node.js and mySQL  database.
+Store-front-help is an application that implements a simple command line based storefront using Node.js and mySQL  database.
 ## What does it do?
 ### Customer Interface
 
-When initialized, the Customer Interface starts off by displaying all of the items for sale at Bamazon. The list includes: item ID, product name, and price.
+When initialized, the Customer Interface starts off by displaying all of the items for sale at Store-front-help. The list includes: item ID, product name, and price.
 
 After the items' list the customer is prompted to choose an item to purchase by inputting its item ID and then the desired quantity of the item. 
 
-If the input quantity is able to be fulfilled by Bamazon, the order is fulfilled and the terminal displays the recent purchase and the total purchase price for the customer. 
+If the input quantity is able to be fulfilled by Store-front-help, the order is fulfilled and the terminal displays the recent purchase and the total purchase price for the customer. 
 
 If the input quantity is not able to be fulfilled, the user is shown the current quantity of said item available so they can try a new order with a fulfillable request .
 
-If a successful purchase was made, the app updates the bamazon database accordingly. 
+If a successful purchase was made, the app updates the Store-front-help database accordingly. 
 
 ### Manager Interace
 When initialized, the Manager Interface lists a set of menu options:
@@ -45,7 +45,7 @@ After selecting the item, the manager can then input the quantity to be added to
 
 	? How much inventory would you like to add?
 
- The app then updates the bamazon database accordingly. 
+ The app then updates the Store-front-help database accordingly. 
 
 The **Add New Product** option consists of four prompts that allow the manager to enter a completely new record into the 'products' table. 
 
@@ -82,7 +82,7 @@ The **Add New Product** option consists of four prompts that allow the manager t
 
 #### The Manager Interface
 
- 1. To initialize the Manager Interface, run the following in your terminal at the root of the bamazon repository:
+ 1. To initialize the Manager Interface, run the following in your terminal at the root of the Store-front-help repository:
 
 
 	`node bamazonManager.js`
