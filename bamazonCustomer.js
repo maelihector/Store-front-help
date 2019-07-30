@@ -24,7 +24,7 @@ function startCustomer() {
 
                                                 ~~*~~ WELCOME TO BAMAZON ~~*~~
 
-               PLEASE LOOK THROUGH OUR PRODUCT LIST AND NOTE THE 'Product ID' OF THE ITEM(S) YOU WISH TO PURCHASE
+               PLEASE LOOK THROUGH OUR PRODUCT LIST AND NOTE THE 'Product ID' OF THE ITEM YOU WISH TO PURCHASE
             
                             =================================================================
             `);
@@ -101,7 +101,8 @@ function startCustomer() {
                 });
             } else {
                 console.log(`
-                Sorry, we have insufficient quantity in stock, here is the quantity we currently have: ${currentQuantity}
+                Sorry, we have insufficient quantity in stock, 
+                here is the quantity we currently have: ${currentQuantity}
                 `);
                 con.end();
             }
