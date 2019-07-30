@@ -1,109 +1,145 @@
 # Bamazon Store
+
 ## What is this?
+
 
 Bamazon Store is a store-front, CLI application that uses [Node.js](https://nodejs.org/en/) and [MySQL](https://www.mysql.com/) to help manipulate and keep track of its inventory.
 
 The application presents two interfaces:
 
-1. The  **customer** interface allows for viewing and purchasing of Bamazon Store products.
+1. The **customer** interface allows for viewing and purchasing of Bamazon Store products.
+
 2. The **manager** interface allows for adding inventory or new store products.
 
 
 ## What does it do?
-#### Customer Interface
+
+### Customer Interface
 
 When initialized, the Customer Interface starts off by displaying all of the items for sale at Bamazon Store. The list includes: item ID, product name, and price.
 
 After the items' list the customer is prompted to choose an item to purchase by inputting its item ID:
 
-  ? What is the ID of the product you would like to purchase?
+```
+? What is the ID of the product you would like to purchase?
+```
 
 and then the desired quantity of the item:
 
-  ? How many would you like to purchase?
+```
+? How many would you like to purchase?
+```
 
-If the input quantity is able to be fulfilled by Bamazon Store, the order is fulfilled and the terminal displays the recent purchase and the total purchase price for the customer. 
+If the input quantity is able to be fulfilled by Bamazon Store, the order is fulfilled and the terminal displays the recent purchase and the total purchase price for the customer.
 
 If the input quantity is not able to be fulfilled, the user is shown the current quantity of said item available so they can try a new order with a fulfillable request.
 
-If a successful purchase was made, the app updates Bamazon Store database accordingly. 
+If a successful purchase was made, the app updates Bamazon Store database accordingly.
 
-#### Manager Interace
+### Manager Interace
+
 When initialized, the Manager Interface lists a set of menu options:
 
-	? Manager Actions: (Use arrow keys)
-	❯ View Products for Sale 
-	  View Low Inventory 
-	  Add to Inventory 
-	  Add New Product
-	  
-- The **View Products for Sale** option lists the current inventory of store items: item IDs, names, prices, and the quantity available in stock. 
+```
+? Manager Actions: (Use arrow keys)
+❯ View Products for Sale
+  View Low Inventory
+  Add to Inventory
+  Add New Product
+```
 
-- The **View Low Inventory** option lists all items with an inventory count of lower than 5.
+1. The **View Products for Sale** option lists the current inventory of store items: item IDs, names, prices, and the quantity available in stock.
 
-- The **Add to Inventory** option displays a prompt that will let the manager add additional inventory to the target item.
+2. The **View Low Inventory** option lists all items with an inventory count of lower than 5.
 
-	? Manager Actions: Add to Inventory
-	? Select which product you want to add inventory to:
-	Casual Oversized Baggy Off-Shoulder Shirt
-	Baby Banana Infant Teether
-	BLACK+DECKER Cordless Hand Vacuum
-	❯ Digital Body Weight Scale
-	Pet Grooming Glove
-	Kindle Paperwhite E-reader
-	SpongeBob SquarePants Board Game
-	(Move up and down to reveal more choices)
+3. The **Add to Inventory** option displays a prompt that will let the manager add additional inventory to the target item.
+
+```
+? Manager Actions: Add to Inventory
+? Select which product you want to add inventory to:
+  Casual Oversized Baggy Off-Shoulder Shirt
+  Baby Banana Infant Teether
+  BLACK+DECKER Cordless Hand Vacuum
+❯ Digital Body Weight Scale
+  Pet Grooming Glove
+  Kindle Paperwhite E-reader
+  SpongeBob SquarePants Board Game
+(Move up and down to reveal more choices)
+```
 
 After selecting the item, the manager can then input the quantity to be added to the item's stock quantity.
 
-	? How much inventory would you like to add?
+```
+? How much inventory would you like to add?
+```
 
-The app then updates Bamazon Store database accordingly. 
-
-- The **Add New Product** option consists of four prompts that allow the manager to enter a completely new record into the 'products' table. 
+The app then updates Bamazon Store database accordingly.
 
 
-	? Manager Actions: Add New Product 
-	You are adding a new and unique product to 'products' table in 'bamazon' database. 
-	? Input name of item: Example Item Name 
-	? Choose the department the item belongs to: Toys & Games 
-	? Input the price of the item: 34.66
-	? Input the stock_quantity of item: 45
+4. The **Add New Product** option consists of four prompts that allow the manager to enter a completely new record into the 'products' table.
+
+```
+?  Input name of item: |
+```
+```
+?  Choose the department the item belongs to:
+  Clothing
+  Baby
+  Vaccums & Floor Care
+❯ Health & Household
+  Pet Supplies
+  Electronics
+(Move up and down to reveal more choices)
+```
+```
+? Input the price of the item: |
+```
+```
+? Input the stock_quantity of item: |
+```
 
 ## How does it work?
 
 ### Get set up first
 
 1. Download the latest version of [Node.js](https://nodejs.org/en/)
-2. Download the right version of [MySQL ](https://dev.mysql.com/) database onto your machine. 
+
+2. Download the right version of [MySQL ](https://dev.mysql.com/) database onto your machine.
+
 3. Download a GUI like [Sequel Pro](https://www.sequelpro.com/) to create the initial MySQL database.
+
 4. Clone the 'bamazon' repository onto your machine.
-5. Run `npm install` in your terminal at the root of the repository.
-6. Start the MySQL server. 
+
+5. Run `$ npm install` in your terminal at the root of the repository.
+
+6. Start the MySQL server.
 
 
 #### The Customer Interface
 
 1. To initialize the Customer Interface, run the following in your terminal at the root of the repository:
 
-
-`node bamazonCustomer.js`
+	`$ node bamazonCustomer.js`
 
 2. Follow the prompts.
+
 3. If there is not enough quantity of the item you wish to purchase go back to step 1.
-4. Press `Ctrl+c` twice anytime you wish to quit the application.
+
+4. Press `Ctrl+c` anytime you wish to quit the application.
+
 
 #### The Manager Interface
 
 1. To initialize the Manager Interface, run the following in your terminal at the root of Bamazon Store repository:
 
-
-`node bamazonManager.js`
+	`$ node bamazonManager.js`
 
 2. Choose an option and/or follow the prompts.
-3. Press `Ctrl+c` twice anytime you wish to quit the application.
 
-## Demo Videos
+3. Press `Ctrl+c` anytime you wish to quit the application.
+
+
+## Demo Videos 
 
 * [bamazonCustomer.js](https://drive.google.com/file/d/1ndJIr8GIOvuuePscSoh5ae0eCLItXVbF/view)
 
@@ -111,6 +147,7 @@ The app then updates Bamazon Store database accordingly.
 
 
 ## Technologies Used
+
 [Node.js](https://nodejs.org/en/)
 
 * [Inquire](https://www.npmjs.com/package/inquirer)
