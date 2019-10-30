@@ -37,20 +37,31 @@ function startCustomer() {
     for (let i = 0; i < res.length; i++) {
       // Create empty row array
       let row = [];
-      row.push(res[i].item_id, res[i].product_name, "$" + res[i].price.toFixed(2));
+      row.push(res[i].item_id, res[i].product_name, "$" + res[i].price.toFixed(2), res[i].stock_quantity);
       tableRows.push(row);
     }
     // Create undefined data and output instances
-    let data,
+    let config, data,
       output;
     // Create headear row to label each column
-    let headerRow = ['Product ID', 'Name', 'Price'];
+    let headerRow = ['Product ID', 'Name', 'Price', 'Quantity in Stock'];
     // Add header row to front of data rows
     tableRows.unshift(headerRow);
     // Give 'data' the value of 'tableRows'
     data = tableRows;
+
+    // Format cols
+    config = {
+      columns: {
+        3: {
+          alignment: 'center'
+        }
+      }
+    };
+
     // Give 'output' the value of function table() with 'data' as argument to build table using 'table' npm package
-    output = table(data);
+    output = table(data, config);
+
     // Log the table
     console.log(`${output}
     
@@ -124,11 +135,8 @@ function startCustomer() {
         });
       } else {
         console.log(`
-                              *********
 
-        Sorry, we have ${currentQuantity} left of ${productName} in stock.
-
-                              *********
+        *** Sorry, we have ${currentQuantity} left of ${productName} in stock. ***
 
                 `);
         con.end();
