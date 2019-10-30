@@ -30,16 +30,31 @@ function startCustomer() {
     //console.log(res); // Check for appropriate response
     console.log(`
 
-                  ~~*~~ WELCOME TO BAMAZON ~~*~~
+    ~~*~~ WELCOME TO BAMAZON ~~*~~
 
     `);
+
+    // Create array for items not in stock for validation
+    let itemsNotInStock = [];
+
     // Loop through returned results and fetch data to build each row
     for (let i = 0; i < res.length; i++) {
+
       // Create empty row array
       let row = [];
-      row.push(res[i].item_id, res[i].product_name, "$" + res[i].price.toFixed(2), res[i].stock_quantity);
-      tableRows.push(row);
+
+      // Only display products in stock
+      if (res[i].stock_quantity === 0) {
+        itemsNotInStock.push(res[i].item_id);
+      }
+      if (res[i].stock_quantity !== 0) {
+        row.push(res[i].item_id, res[i].product_name, "$" + res[i].price.toFixed(2), res[i].stock_quantity);
+        tableRows.push(row);
+      }
+
     }
+
+    console.log(itemsNotInStock);
     // Create undefined data and output instances
     let config, data,
       output;
@@ -73,7 +88,7 @@ function startCustomer() {
         message: "What is the ID of the product you would like to purchase?",
         // Make sure the input is a number and that it matches an actual product item_id
         validate: function (value) {
-          if (isNaN(value) === false && parseInt(value) <= res.length && parseInt(value) > 0) {
+          if (isNaN(value) === false && parseInt(value) <= res.length && parseInt(value) > 0 && itemsNotInStock.indexOf(parseInt(value)) == -1) {
             return true;
           } else {
             return false;
@@ -92,9 +107,8 @@ function startCustomer() {
             return true;
           }
         }
+        // Function to check if Bamazon has enough of the product to meet the customer's reques
       }
-
-      // Funtion to check if Bamazon has enough of the product to meet the customer's request
     ]).then((input) => {
       // Fetch product data
       let itemToPurchase = (input.id) - 1;
@@ -119,26 +133,26 @@ function startCustomer() {
           if (err) throw err;
           // Show the customer the total cost of their purchase
           console.log(`
-                                      *********
+                                        *********
 
-                              ~~Your order went through!~~
+                                ~~~ Your order went through! ~~~
 
-                              Your total today was: $${totalCost}
+                                Your total today was: $${totalCost}
 
-            ${purchaseQuantity} of ${productName}(s) will be shipped to you in 3-5 business days.
+              ${purchaseQuantity} of ${productName}(s) will be shipped to you in 3-5 business days.
 
-                                      *********
+                                        *********
 
-                            THANK YOU FOR YOUR BUSINESS!
-          `);
+                              THANK YOU FOR YOUR BUSINESS!
+            `);
           con.end();
         });
       } else {
         console.log(`
 
-        *** Sorry, we have ${currentQuantity} left of ${productName} in stock. ***
+          *** Sorry, there is only ${currentQuantity} of the ${productName} product in stock ***
 
-                `);
+                  `);
         con.end();
       }
     });
