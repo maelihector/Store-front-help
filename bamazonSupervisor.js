@@ -57,7 +57,7 @@ function viewTotalDepartmentSales() {
   // Make query using built query string
   con.query(query, function (err, res) {
     if (err) throw err;
-    console.log(res);
+    //console.log(res); // Check for appropriate response
     // Create empty array to hold table rows
     let tableRows = [];
     // Loop through returned results and fetch data to build each row
