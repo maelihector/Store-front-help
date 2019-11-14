@@ -2,39 +2,39 @@
 -- Create a new database labeled 'bamazon' on the server.
 -- Make known that the database labeled 'bamazon' is being referenced.
 
-  --Create a new table labeled 'products' in 'bamazon' database.
-    -- Add a column labeled 'item_id', and have 'item_id' be an INTEGER, consist of positive numbers only (UNSIGNED), and automatically increment by 1 (AUTO_INCREMENT) with every new record.
-    -- Add a column labeled 'product_name', and have 'product_name' be of a string of up to 255 Variable Characters long, have a UNIQUE string input to avoid duplicates, and return a violation constraint if there is no value input.
-    -- Add a column labeled 'department_name', and have 'department_name' be of a string of up to 255 Variable Characters long, and return a violation constraint if there is no value input.
-    -- Add a column labeled 'price' and have 'price' store exact numeric data values with two decimals, and return a violation constraint if there is no value input.
-    -- Add a column labeled 'stock_quantity' and have 'stock_quantity' be an INTEGER, consist of positive numbers only (UNSIGNED), and return a violation constraint if there is no value input.
-    -- Add a column labeled 'products_sold' and have 'products_sold' be an INTEGER, consist of positive numbers only (UNSIGNED), and DEFAULT to 0 if there is no value input.
-    -- Add a column labeled 'product_sales' and have 'product_sales' store exact numeric data values with two decimals, and DEFAULT to 0.00 if there is no value input.
-    -- Create an index of each row inserted into 'products' table.
+--Create a new table labeled 'products' in 'bamazon' database.
+  -- Add a column labeled 'product_id', and have 'product_id' be an INTEGER, consist of positive numbers only (UNSIGNED), and automatically increment by 1 (AUTO_INCREMENT) with every new record.
+  -- Add a column labeled 'product_name', and have 'product_name' be of a string of up to 255 Variable Characters long, have a UNIQUE string input to avoid duplicates, and return a violation constraint if there is no value input.
+  -- Add a column labeled 'department_name', and have 'department_name' be of a string of up to 255 Variable Characters long, and return a violation constraint if there is no value input.
+  -- Add a column labeled 'price' and have 'price' store exact numeric data values with two decimals, and return a violation constraint if there is no value input.
+  -- Add a column labeled 'stock_quantity' and have 'stock_quantity' be an INTEGER, consist of positive numbers only (UNSIGNED), and return a violation constraint if there is no value input.
+  -- Add a column labeled 'products_sold' and have 'products_sold' be an INTEGER, consist of positive numbers only (UNSIGNED), and DEFAULT to 0 if there is no value input.
+  -- Add a column labeled 'product_sales' and have 'product_sales' store exact numeric data values with two decimals, and DEFAULT to 0.00 if there is no value input.
+  -- Create an index of each row inserted into 'products' table.
 
 -- Specify the columns and the order the following values that will be INSTERTed into said columns.
 
-  --Create a new table labeled 'departments' in 'bamazon' database.
-    -- Add a column labeled 'department_id', and have 'department_id' be an INTEGER, consist of positive numbers only (UNSIGNED), and automatically increment by 1 (AUTO_INCREMENT) with every new record.
-    -- Add a column labeled 'department_name', and have 'department_name' be of a string of up to 255 Variable Characters long, have a UNIQUE string input to avoid duplicates, and return a violation constraint if there is no value input.
-    -- Add a column labeled 'over_head_costs' and have 'over_head_costs' store exact numeric data values with two decimals, and return a violation constraint if there is no value input.
-    -- Create an index of each row inserted into 'departments' table.
-    
+--Create a new table labeled 'departments' in 'bamazon' database.
+  -- Add a column labeled 'department_id', and have 'department_id' be an INTEGER, consist of positive numbers only (UNSIGNED), and automatically increment by 1 (AUTO_INCREMENT) with every new record.
+  -- Add a column labeled 'department_name', and have 'department_name' be of a string of up to 255 Variable Characters long, have a UNIQUE string input to avoid duplicates, and return a violation constraint if there is no value input.
+  -- Add a column labeled 'overhead_costs' and have 'overhead_costs' store exact numeric data values with two decimals, and return a violation constraint if there is no value input.
+  -- Create an index of each row inserted into 'departments' table.
+
 -- Specify the columns and the order the following values that will be INSTERTed into said columns.
 
 DROP DATABASE IF EXISTS bamazon;                        
 CREATE DATABASE bamazon;                                
 USE bamazon;                                            
 
-CREATE TABLE products (                                 
-    `item_id` INT UNSIGNED AUTO_INCREMENT NOT NULL,     
-    `product_name` VARCHAR(255) UNIQUE NOT NULL,        
-    `department_name` VARCHAR(255) NOT NULL,            
-    `price` DECIMAL(10,2) NOT NULL,                      
-    `stock_quantity` INT UNSIGNED NOT NULL,
-    `products_sold` INT UNSIGNED DEFAULT 0,
-    `product_sales` DECIMAL(10,2) DEFAULT 0.00,          
-    PRIMARY KEY (item_id)                               
+CREATE TABLE products (
+  `product_id` INT UNSIGNED AUTO_INCREMENT NOT NULL,
+  `product_name` VARCHAR(255) UNIQUE NOT NULL,  
+  `department_name` VARCHAR(255) NOT NULL,        
+  `price` DECIMAL(10,2) NOT NULL,             
+  `stock_quantity` INT UNSIGNED NOT NULL,
+  `products_sold` INT UNSIGNED DEFAULT 0,
+  `product_sales` DECIMAL(10,2) DEFAULT 0.00,       
+  PRIMARY KEY (product_id)
 );
 
 INSERT INTO products 
@@ -65,11 +65,11 @@ VALUES
 CREATE TABLE departments (
   `department_id` INT UNSIGNED AUTO_INCREMENT NOT NULL,
   `department_name` VARCHAR(255) UNIQUE NOT NULL,
-  `over_head_costs` DECIMAL(10,2) NOT NULL,
+  `overhead_costs` DECIMAL(10,2) NOT NULL,
   PRIMARY KEY (department_id)
 );
 
-INSERT INTO departments (department_name, over_head_costs)
+INSERT INTO departments (department_name, overhead_costs)
 VALUES 
 ('Electronics', 1000.00),
 ('Toys & Games', 400.00),

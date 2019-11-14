@@ -23,6 +23,11 @@ con.connect(err => {
 
 // Function to display prompt at initialization of application
 function startSupervisor() {
+  console.log(`
+
+  * Please Choose an Action *
+
+`);
   inquirer.prompt([{
     type: "list",
     name: "action",
@@ -46,8 +51,8 @@ function startSupervisor() {
 // Function to view total department sales
 function viewTotalDepartmentSales() {
   // Build query to return total sales
-  // Fetch data of columns 'department_id, department_name, and over_head_costs from the table 'departments'
-  let query = "SELECT departments.department_id, departments.department_name, departments.over_head_costs, ";
+  // Fetch data of columns 'department_id, department_name, and overhead_costs from the table 'departments'
+  let query = "SELECT departments.department_id, departments.department_name, departments.overhead_costs, ";
   // Use the aggregate function SUM on the column product_sales in 'products' table, and return the aggregate as alias 'total_department_sales'
   query += "SUM(products.product_sales) AS total_department_sales ";
   // Take table 'departments' and perform a LEFT JOIN with table 'products', join tables ON respective columns of 'department_name'
@@ -67,8 +72,8 @@ function viewTotalDepartmentSales() {
       if (res[i].total_department_sales === null) {
         res[i].total_department_sales = 0.00;
       }
-      let totalProfit = res[i].total_department_sales - res[i].over_head_costs;
-      row.push(res[i].department_id, res[i].department_name, res[i].over_head_costs.toFixed(2), res[i].total_department_sales.toFixed(2), totalProfit.toFixed(2));
+      let totalProfit = res[i].total_department_sales - res[i].overhead_costs;
+      row.push(res[i].department_id, res[i].department_name, res[i].overhead_costs.toFixed(2), res[i].total_department_sales.toFixed(2), totalProfit.toFixed(2));
       tableRows.push(row);
     }
     // Call function to create a table
@@ -81,7 +86,7 @@ function createTable(tableData) {
   let data,
     output;
   // Create headear row to label each column
-  let headerRow = ['department_id', 'department_name', 'over_head_costs', 'product_sales', 'total_profit'];
+  let headerRow = ['department_id', 'department_name', 'overhead_costs', 'product_sales', 'total_profit'];
   // Add header row to front of data rows
   tableData.unshift(headerRow);
   // Give 'data' the value of 'tableData'
@@ -111,7 +116,7 @@ function createDepartment() {
   }, {
     type: "input",
     name: "overhead",
-    message: "Input over head costs for the department:",
+    message: "Input overhead costs for the department:",
     validate: function (value) {
       if (isNaN(value) === false) {
         return true;
@@ -123,7 +128,7 @@ function createDepartment() {
     // Insert new data into table 'departments'
     con.query('INSERT INTO departments SET ?', {
       department_name: ans.department,
-      over_head_costs: ans.overhead
+      overhead_costs: ans.overhead
     }, (err) => {
       if (err) throw err;
       console.log(`
@@ -133,7 +138,7 @@ function createDepartment() {
       =================================================================
 
                 department_name:    ${ans.department}
-                over_head_costs:    ${ans.overhead}
+                overhead_costs:    ${ans.overhead}
 
       `);
       // Take supervisor back to prompts

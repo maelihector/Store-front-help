@@ -23,14 +23,19 @@ con.connect(err => {
 
 // Function to display prompt at initialization of application
 function startManager() {
+  console.log(`
+
+  * Please Choose an Action *
+
+  `);
   inquirer.prompt([{
     type: "list",
     name: "action",
     message: "Manager Actions:",
-    choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product", "Exit"]
+    choices: ["View All Inventory", "View Low Inventory", "Add to Inventory", "Add New Product", "Exit"]
   }]).then(choice => {
     switch (choice.action) {
-      case "View Products for Sale":
+      case "View All Inventory":
         viewTotalInventory();
         break;
       case "View Low Inventory":
@@ -57,7 +62,7 @@ function viewTotalInventory() {
                 
                                   BAMAZON'S TOTAL INVENTORY
 
-                `);
+    `);
 
     // Call function to build table
     buildTable(res);
@@ -147,7 +152,7 @@ function addProduct() {
   inquirer.prompt([{
     type: "input",
     name: "item",
-    message: "Input name of item:",
+    message: "Input the name of the new product:",
     validate: function (value) {
       if (value) {
         return true;
@@ -158,12 +163,12 @@ function addProduct() {
   }, {
     type: "list",
     name: "department",
-    message: "Choose the department the item belongs to:",
+    message: "Choose the department the product belongs to:",
     choices: departments
   }, {
     type: "input",
     name: "price",
-    message: "Input the price of the item:",
+    message: "Input the price of the product:",
     validate: function (value) {
       if (isNaN(value) === false) {
         return true;
@@ -174,7 +179,7 @@ function addProduct() {
   }, {
     type: "input",
     name: "quantity",
-    message: "Input the stock_quantity of item:",
+    message: "Input the stock_quantity of the product:",
     validate: function (value) {
       if (isNaN(value) == false) {
         return true;
@@ -217,7 +222,7 @@ function buildTable(res) {
   for (let i = 0; i < res.length; i++) {
     // Create empty row array
     let row = [];
-    row.push(res[i].item_id, res[i].product_name, "$" + res[i].price.toFixed(2), res[i].stock_quantity, res[i].products_sold);
+    row.push(res[i].product_id, res[i].product_name, "$" + res[i].price.toFixed(2), res[i].stock_quantity, res[i].products_sold);
     tableRows.push(row);
   }
   // Create undefined data and output instances

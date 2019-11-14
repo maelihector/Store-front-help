@@ -21,52 +21,34 @@ con.connect(err => {
   startCustomer();
 });
 
-// Function to display products for sale to customer at initialization of application
+// Function to display products for sale and in stock to customer in a table
 function startCustomer() {
-  con.query("SELECT * FROM products", function (err, res) {
+  // Send SELECT command to mySQL to get products where the stock quantity is not 0
+  con.query("SELECT * FROM products WHERE stock_quantity !=0", function (err, res) {
     if (err) throw err;
-    // Create empty array to hold table rows
+
+    // Create empty array to hold all product rows of table
     let tableRows = [];
-    //console.log(res); // Check for appropriate response
+
+    // Log greeting to customer before table displays
     console.log(`
 
     ~~*~~ WELCOME TO BAMAZON ~~*~~
 
     `);
 
-    // Create array for items not in stock for validation
-    let itemsNotInStock = [];
-
-    // Loop through returned results and fetch data to build each row
+    // Loop through returned results
     for (let i = 0; i < res.length; i++) {
-
-      // Create empty row array
-      let row = [];
-
-      // Only display products in stock
-      if (res[i].stock_quantity === 0) {
-        itemsNotInStock.push(res[i].item_id);
-      }
-      if (res[i].stock_quantity !== 0) {
-        row.push(res[i].item_id, res[i].product_name, "$" + res[i].price.toFixed(2), res[i].stock_quantity);
-        tableRows.push(row);
-      }
-
+      // Push product row to products table rows
+      tableRows.push([res[i].product_id, res[i].product_name, "$" + res[i].price.toFixed(2), res[i].stock_quantity]);
     }
 
-    console.log(itemsNotInStock);
-    // Create undefined data and output instances
-    let config, data,
-      output;
-    // Create headear row to label each column
+    // Create header row and add it to table
     let headerRow = ['Product ID', 'Name', 'Price', 'Quantity in Stock'];
-    // Add header row to front of data rows
     tableRows.unshift(headerRow);
-    // Give 'data' the value of 'tableRows'
-    data = tableRows;
 
-    // Format cols
-    config = {
+    // Format the table
+  let config = {
       columns: {
         3: {
           alignment: 'center'
@@ -74,21 +56,33 @@ function startCustomer() {
       }
     };
 
-    // Give 'output' the value of function table() with 'data' as argument to build table using 'table' npm package
-    output = table(data, config);
+    // Give 'output' the value of function table() with tableRows and config as arguments to build the products table
+  let output = table(tableRows, config);
 
-    // Log the table
+    // Log the table of product to the customer
     console.log(`${output}
     
     `);
-    // Add prompt messages to gather the product and amount the customer wants to purchase
+
+    // Create undefined variable for product that customer wants to purchase
+    let productToPurchase;
+
+    // Add prompt messages to get the id of the product the customer wants to purchase
     inquirer.prompt([{
         type: "input",
         name: "id",
         message: "What is the ID of the product you would like to purchase?",
-        // Make sure the input is a number and that it matches an actual product item_id
+        // Make sure the input is a number and that it matches an actual in-stock product product_id
         validate: function (value) {
-          if (isNaN(value) === false && parseInt(value) <= res.length && parseInt(value) > 0 && itemsNotInStock.indexOf(parseInt(value)) == -1) {
+          // Loop through existing products on table
+          for (var i = 0; i < tableRows.length; i++) {
+            // If the product exists, set the product's table row to be the productToPurchase value
+            if (tableRows[i][0] == value) {
+              productToPurchase = tableRows[i];
+            }
+          }
+          // If productToPurchase value is not undefined return true
+          if (productToPurchase !== undefined) {
             return true;
           } else {
             return false;
@@ -96,65 +90,61 @@ function startCustomer() {
         }
       },
       {
+        // Ask customer the quantity of the product they want to purchase
         type: "input",
         name: "qty",
         message: "How many would you like to purchase?",
+        // Make sure that the input number value is not greater than the current in-stock quantity of product
         validate: function (value) {
-          // Make sure that the input is a number value
-          if (isNaN(value)) {
-            return false;
-          } else {
+          if (value <= productToPurchase[3]) {
             return true;
+          } else {
+            console.log(`
+
+            *  Sorry, we only have ${productToPurchase[3]} of ${productToPurchase[1]} in stock. *
+
+            `);
+            return false;
           }
         }
-        // Function to check if Bamazon has enough of the product to meet the customer's reques
       }
+      // Function that sends update query to the database
     ]).then((input) => {
-      // Fetch product data
-      let itemToPurchase = (input.id) - 1;
-      let productName = (res[itemToPurchase].product_name);
-      let purchaseQuantity = parseInt(input.qty);
-      let currentQuantity = (res[itemToPurchase].stock_quantity);
-      let currentSales = (res[itemToPurchase].product_sales);
-      let currentTotalSold = (res[itemToPurchase].products_sold);
-      // Gather totol cost to customer by grabing the 'price' and multiplying it by the purchase quantity
-      let totalCost = parseFloat(((res[itemToPurchase].price) * purchaseQuantity).toFixed(2));
-      // If Bamazon's stock_quantity value is greater than or equal to the customer's quantity request, allow purchase to go through
-      if (currentQuantity >= purchaseQuantity) {
-        con.query("UPDATE Products SET ? WHERE ?", [{
-            stock_quantity: (currentQuantity - purchaseQuantity),
-            product_sales: (currentSales + totalCost),
-            products_sold: (currentTotalSold + purchaseQuantity)
-          },
-          {
-            item_id: (input.id)
-          }
-        ], function (err, result) {
-          if (err) throw err;
-          // Show the customer the total cost of their purchase
-          console.log(`
-                                        *********
+      // Build query string:
+      // Update stock quantity by subtracting the recent purchase quantity from the current stock quantity amount
+      let setString = 'stock_quantity=stock_quantity-' + input.qty;
+      // Update product sales by multiplying product price by the recent purchase quantity and adding the result to the current product sales amount
+      setString += ', product_sales=price*' + input.qty + '+product_sales';
+      // Update total amout of products sold by adding the recent purchase quantity to the current products sold amount
+      setString += ', products_sold=products_sold+' + input.qty;
 
-                                ~~~ Your order went through! ~~~
-
-                                Your total today was: $${totalCost}
-
-              ${purchaseQuantity} of ${productName}(s) will be shipped to you in 3-5 business days.
-
-                                        *********
-
-                              THANK YOU FOR YOUR BUSINESS!
-            `);
-          con.end();
-        });
-      } else {
+      // Send query to the database
+      con.query("UPDATE products SET " + setString + " WHERE ?", [{
+        product_id: input.id
+      }], function (err, result) {
+        if (err) throw err;
+        let price = productToPurchase[2].slice(1);
+        // Show the customer the purchase summary
         console.log(`
 
-          *** Sorry, there is only ${currentQuantity} of the ${productName} product in stock ***
+                                    *
 
-                  `);
+                                *********
+
+                      ~~~ Your order went through! ~~~
+
+                        Your total today was: $${(price*input.qty).toFixed(2)}
+
+        ${input.qty} of ${productToPurchase[1]}(s) will be shipped to you in 3-5 business days.
+
+                                *********
+
+                        THANK YOU FOR YOUR BUSINESS!
+
+                                    *
+        `);
         con.end();
-      }
+      });
     });
   });
 }
