@@ -189,7 +189,7 @@ The application then displays a summary of the new department added.
 
 1. To initialize the Customer Interface, run the following in your terminal at the root of the repository:
 
-	`$ node bamazonCustomer.js`
+	`$ node bamazonCustomer`
 
 
 
@@ -204,8 +204,19 @@ The application then displays a summary of the new department added.
 
 1. To initialize the Manager Interface, run the following in your terminal at the root of Bamazon Store repository:
 
-	`$ node bamazonManager.js`
+	`$ node bamazonManager`
 
+
+2. Choose an option and/or follow the prompts.
+
+3. Press `Ctrl+c` anytime you wish to quit the application.
+
+
+#### The Supervisor Interface
+
+1. To initialize the Supervisor Interface, run the following in your terminal at the root of Bamazon Store repository:
+
+	`$ node bamazonSupervisor`
 
 
 2. Choose an option and/or follow the prompts.
