@@ -4,7 +4,7 @@
 
 Bamazon Store is a [Node](https://nodejs.org/en/), store-front, CLI (command-line interface) application with three unique interfaces customized for customers and employees.
 
-## How Does Bamazon Work?
+## How does Bamazon Work?
 
 For data storage Bamazon uses the [MySQL](https://www.mysql.com/) relational database management system (or RDBMS) with the following two table structures:
 
@@ -168,7 +168,7 @@ The application then displays a summary of the new department added.
 
 - The **Exit** option simply ends Bamazon's connection to the database server and closes the supervisor interface.
 
-## How does it work?
+## How do I use Bamazon?
 
 ### Get set up first
 
