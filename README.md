@@ -2,11 +2,11 @@
 
 ## What is Bamazon?
 
-Bamazon Store is a [Node](https://nodejs.org/en/), store-front, CLI (command-line interface) application with three unique interfaces customized for customers and employees.
+Bamazon Store is a [Nodejs](https://nodejs.org/en/), store-front, Command-Line Interface (CLI)) application with three unique interfaces customized for customers and employees: Customer, Manager, and Supervisor.
 
 ## How does Bamazon Work?
 
-For data storage Bamazon uses the [MySQL](https://www.mysql.com/) relational database management system (or RDBMS) with the following two table structures:
+- For data storage Bamazon uses the [MySQL](https://www.mysql.com/) relational database management system (or RDBMS) with the following two table structures:
 
 1. `Products`
 
@@ -14,7 +14,7 @@ For data storage Bamazon uses the [MySQL](https://www.mysql.com/) relational dat
 |--------|--------|-----------|--------|------------|----------------|-------------|
 |1|GoPro HERO5 Black|Electronics|249.00|15|2|498.00|
 |2|Pet Grooming Glove|Pet Supplies|15.50|60        |40|620.00|
-
+....
 
 2. `Departments`
 
@@ -22,27 +22,36 @@ For data storage Bamazon uses the [MySQL](https://www.mysql.com/) relational dat
 |--------|--------|-----------|
 |1|Electronics|1000.00
 |2|Pet Supplies|150.00
+....
 
-To run on the command line Bamazon uses the [Node.js](https://nodejs.org/en/) run-time environment.
+- To run on the command line Bamazon uses the [Node.js](https://nodejs.org/en/) run-time environment.
 
-To help achieve some tasks Bamazon uses several third-party [Node.js](https://nodejs.org/en/) modules on the [npm](npmjs.com) registry:
+- To help achieve some tasks Bamazon uses several third-party [Node.js](https://nodejs.org/en/) modules from the [npm](npmjs.com) registry:
 
- - All CRUD (Create, Read, Update, Delete) operations triggered by Bamazon's CLIs send [raw SQL](https://en.wikipedia.org/wiki/SQL) commands to the [MySQL](https://www.mysql.com/) database server with the help of the [Node.js](https://nodejs.org/en/) driver **[mysql](https://www.npmjs.com/package/mysql)**.
+  - All CRUD (Create, Read, Update, Delete) operations triggered by Bamazon's CLIs send [raw SQL](https://en.wikipedia.org/wiki/SQL) commands to the [MySQL](https://www.mysql.com/) database server with the help of the [Node.js](https://nodejs.org/en/) driver **[mysql](https://www.npmjs.com/package/mysql)**.
 
- - The **[inquirer](https://www.npmjs.com/package/inquirer)** module provides the user interface and the inquiry session flow used to capture user commands.
+  - The **[inquirer](https://www.npmjs.com/package/inquirer)** module provides the user interface and the inquiry session flow used to capture user commands.
 
- - The **[table](https://www.npmjs.com/package/table)** module is used for building tables that better display Bamazon data on the terminal.
+  - The **[table](https://www.npmjs.com/package/table)** module is used for building tables that better display Bamazon data on the terminal.
 
 
 ## What does Bamazon do?
 
 Bamazon presents three separate interfaces:
 
-1. The **Customer** interface allows for the viewing and purchasing of Bamazon products.
+1. The **Customer** interface allows only:
+  - Viewing in-stock products
+  - Purchasing in-stock products
 
-2. The **Manager** interface allows for viewing of all inventory, viewing just low-in-stock inventory, adding stock to inventory, and for adding new products to Bamazon departments.
+2. The **Manager** interface allows only:
+  - Viewing all products
+  - Isolating products out-of-stock or low-in-stock
+  - Adding stock to inventory
+  - Adding new products
 
-3.  The **Supervisor** interface allows for the viewing of total sales and profits by department, and for adding new departments to Bamazon.
+3.  The **Supervisor** interface allows:
+  - Viewing of total sales and profits by department
+  - Adding new departments
 
 
 ### The Customer Interface:
@@ -60,7 +69,9 @@ Once a valid ID is entered, the interface prompts the customer to input the quan
 ```
 Once a quantity amount is entered, the application checks if it is greater than the current in-stock quantity amount, and if so the order **is not** fulfilled and returns false. The customer is shown the current quantity available so they can enter a new amount.
 
-If the quantity entered not greater than the current in-stock quantity, the order **is** fulfilled by the application, and sends an `UPDATE` [SQL](https://en.wikipedia.org/wiki/SQL)  command to the database to update the changes to the product's record that include a change to the quantity in stock, total products sold, and total product sales.  The application then displays a summary of the purchase to the customer, ends Bamazon's connection to the database server, and closes the customer interface.
+If the quantity entered is **not greater** than the current in-stock quantity, the order **is** fulfilled by the application, and sends an `UPDATE` [SQL](https://en.wikipedia.org/wiki/SQL)  command to the database to update the changes to the product's record that include; a change to the quantity in stock, total products sold, and total product sales.  
+
+The application then displays a summary of the purchase to the customer, ends Bamazon's connection to the database server, and closes the customer interface.
 
 ### The Manager Interface:
 
@@ -81,54 +92,54 @@ When initialized, the manager interface prompts the manager to choose an action 
 
   - The **Add to Inventory** option initializes with a prompt that asks the manager to select the product they want to add inventory to:
 
-```
-? Select which product you want to add inventory to:
-  Casual Oversized Baggy Off-Shoulder Shirt
-  Baby Banana Infant Teether
-  BLACK+DECKER Cordless Hand Vacuum
-❯ Digital Body Weight Scale
-  Pet Grooming Glove
-  Kindle Paperwhite E-reader
-  SpongeBob SquarePants Board Game
-(Move up and down to reveal more choices)
-```
+    ```
+    ? Select which product you want to add inventory to:
+      Casual Oversized Baggy Off-Shoulder Shirt
+      Baby Banana Infant Teether
+      BLACK+DECKER Cordless Hand Vacuum
+    ❯ Digital Body Weight Scale
+      Pet Grooming Glove
+      Kindle Paperwhite E-reader
+      SpongeBob SquarePants Board Game
+    (Move up and down to reveal more choices)
+    ```
 
-After selecting a product, the manager is prompted to input the number quantity to be added to the products's stock quantity.
+    After selecting a product, the manager is prompted to input the number quantity to be added to the products's stock quantity.
 
-```
-? How much inventory would you like to add?
-```
+    ```
+    ? How much inventory would you like to add?
+    ```
 
-After a valid input, the application sends an `UPDATE` [SQL](https://en.wikipedia.org/wiki/SQL)  command to the database to update the changes to the product's stock quantity. The application then displays a summary of the update to the manager.
+    After a valid input, the application sends an `UPDATE` [SQL](https://en.wikipedia.org/wiki/SQL)  command to the database to update the changes to the product's stock quantity. The application then displays a summary of the update to the manager.
 
 
 
 - The **Add New Product** option initializes a four prompt session flow to gather a new product's information:
 
-```
-?  Input the name of the new product: |
-```
+    ```
+    ?  Input the name of the new product: |
+    ```
 
-```
-?  Choose the department the product belongs to:
-  Clothing
-  Baby
-  Vaccums & Floor Care
-❯ Health & Household
-  Pet Supplies
-  Electronics
-(Move up and down to reveal more choices)
-```
-```
-? Input the sale price of the product: |
-```
-```
-? Input the stock_quantity of the product: |
-```
+    ```
+    ?  Choose the department the product belongs to:
+      Clothing
+      Baby
+      Vaccums & Floor Care
+    ❯ Health & Household
+      Pet Supplies
+      Electronics
+    (Move up and down to reveal more choices)
+    ```
+    ```
+    ? Input the sale price of the product: |
+    ```
+    ```
+    ? Input the stock_quantity of the product: |
+    ```
 
-After all product information has been entered, the application sends an `INSERT INTO`  [SQL](https://en.wikipedia.org/wiki/SQL)  command to the database to add the new product.
+    After all product information has been entered, the application sends an `INSERT INTO`  [SQL](https://en.wikipedia.org/wiki/SQL)  command to the database to add the new product.
 
-The application then displays a summary of the new product added.
+    The application then displays a summary of the new product added.
 
 - The **Exit** option simply ends Bamazon's connection to the database server and closes the manager interface.
 
@@ -155,16 +166,16 @@ When initialized, the supervisor interface prompts the supervisor to choose an a
 
 - The **Create New Department** option initializes a two prompt session flow to gather a new department's information:
 
-```
-?  Input name of new department:  |
-```
-```
-?  Input overhead costs for the department:  |
-```
+    ```
+    ?  Input name of new department:  |
+    ```
+    ```
+    ?  Input overhead costs for the department:  |
+    ```
 
-After the department information has been entered, the application sends an `INSERT INTO`  [SQL](https://en.wikipedia.org/wiki/SQL)  command to the database to add the new department.
+    After the department information has been entered, the application sends an `INSERT INTO`  [SQL](https://en.wikipedia.org/wiki/SQL)  command to the database to add the new department.
 
-The application then displays a summary of the new department added.
+    The application then displays a summary of the new department added.
 
 - The **Exit** option simply ends Bamazon's connection to the database server and closes the supervisor interface.
 
