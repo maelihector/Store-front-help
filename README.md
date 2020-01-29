@@ -40,18 +40,18 @@ Bamazon Store is a [Nodejs](https://nodejs.org/en/), store-front, Command-Line I
 Bamazon presents three separate interfaces:
 
 1. The **Customer** interface allows only:
-  - Viewing in-stock products
-  - Purchasing in-stock products
+    - Viewing in-stock products
+    - Purchasing in-stock products
 
 2. The **Manager** interface allows only:
-  - Viewing all products
-  - Isolating products out-of-stock or low-in-stock
-  - Adding stock to inventory
-  - Adding new products
+    - Viewing all products
+    - Isolating products out-of-stock or low-in-stock
+    - Adding stock to inventory
+    - Adding new products
 
 3.  The **Supervisor** interface allows:
-  - Viewing of total sales and profits by department
-  - Adding new departments
+    - Viewing of total sales and profits by department
+    - Adding new departments
 
 
 ### The Customer Interface:
